@@ -1,7 +1,6 @@
 import numpy
 import pandas as pd
 from sklearn import linear_model
-import matplotlib.pyplot as plt
 import numpy as np
 
 data = pd.read_csv("TD.csv").values
