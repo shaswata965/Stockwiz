@@ -16,8 +16,8 @@ for i in data:
     count = 0
     for j in i:
         count += 1
-        val += 1
         if count == 1:
+            val += 1
             X_init.append(val)
             last_val = val
         elif count == 6:
@@ -37,16 +37,15 @@ lm.fit(X_train, Y_train)
 
 y_pred = lm.predict(X_Test)
 
-temp_f_wb = lm.intercept_ + lm.coef_*X_train
+f_wb = lm.intercept_ + lm.coef_*X_train
 
-plt.plot(X_train, temp_f_wb, c='b', label='Our Prediction')
+plt.plot(X_train, f_wb, c='b', label='Our Prediction')
 plt.scatter(X_train, Y_train, marker='x', c='r', label='Actual Values')
-plt.title('Housing Prices')
-plt.xlabel('Size(in 1000 sqft)')
-plt.ylabel('Price(in 1000 dollar)')
+plt.ylabel('Price(in CAD)')
+plt.xlabel('Time(in trade)')
 plt.legend()
 plt.show()
 
 print(y_pred)
 
-print(Y_train)
+print(X_train)
