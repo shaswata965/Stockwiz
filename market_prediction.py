@@ -19,7 +19,7 @@ def train_data(val):
         n_array2 = []
         for j in range(60):
             if count < num_data:
-                temp_array = [pima[count][5],pima[count][2],pima[count][3],pima[count][4], pima[count][6]]
+                temp_array = [pima[count][2], pima[count][3], pima[count][4], pima[count][5], pima[count][6]]
                 temp_array2 = [pima[count][1]]
                 count += 1
                 n_array.append(temp_array)
