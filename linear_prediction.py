@@ -1,51 +1,41 @@
 import numpy
 import pandas as pd
 from matplotlib import pyplot as plt
-from sklearn import linear_model
+from sklearn.linear_model import LinearRegression
 import numpy as np
+import market_prediction
 
-data = pd.read_csv("TD.csv").values
+cur_set = market_prediction.train_data(0)[2]
 
-X_init = []
-Y_train = []
+X_train = market_prediction.train_data(cur_set-2)[0]
 
-val = 0
-last_val = 0
-last_val_arr = []
-for i in data:
-    count = 0
-    for j in i:
-        count += 1
-        if count == 1:
-            val += 1
-            X_init.append(val)
-            last_val = val
-        elif count == 6:
-            Y_train.append(j)
+X_train = np.array(X_train)
 
-for i in range(0, 10):
-    last_val += 1
-    last_val_arr.append(last_val)
+Y_train = market_prediction.train_data(cur_set-2)[1]
 
-X_Test = np.reshape(last_val_arr, (-1, 1))
+Y_train = np.array(Y_train)
 
-X_train = np.reshape(X_init, (-1, 1))
+X_test = market_prediction.train_data(cur_set-1)[0]
 
-lm = linear_model.LinearRegression()
+X_test = np.array(X_test)
+
+Y_test = market_prediction.train_data(cur_set-1)[1]
+
+Y_test= np.array(Y_test)
+
+lm = LinearRegression()
 
 lm.fit(X_train, Y_train)
 
-y_pred = lm.predict(X_Test)
+Y_pred = lm.predict(X_test)
 
-f_wb = lm.intercept_ + lm.coef_*X_train
+X_plot = []
 
-plt.plot(X_train, f_wb, c='b', label='Our Prediction')
-plt.scatter(X_train, Y_train, marker='x', c='r', label='Actual Values')
-plt.ylabel('Price(in CAD)')
-plt.xlabel('Time(in trade)')
-plt.legend()
-plt.show()
+for i in range(0, 60):
+    X_plot.append(i)
 
-print(y_pred)
+print(Y_pred)
 
-print(X_train)
+print(Y_test)
+
+print(lm.score(X_test, Y_test))
