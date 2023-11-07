@@ -29,16 +29,15 @@ lm.fit(X_train, Y_train)
 
 Y_pred = lm.predict(X_test)
 
+print(lm.score(X_test,Y_test))
+
 X_plot = []
 
-print(Y_test.shape[0])
 for i in range(0,Y_test.shape[0]):
     X_plot.append(i)
 
 
 X_plot = np.array(X_plot)
-print(X_plot.shape)
-
 
 plt.plot(X_plot, Y_pred, c='b', label='Our Prediction')
 plt.scatter(X_plot, Y_test, marker='x', c='r', label='Actual Values')
