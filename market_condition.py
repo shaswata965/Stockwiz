@@ -3,7 +3,7 @@ import os
 
 data_list = []
 close_list = []
-
+file_set = []
 def condition(q):
     dir_path = "data"
     files = os.listdir(dir_path)
@@ -15,7 +15,8 @@ def condition(q):
     for i in range(len(files)):
         pima = pd.read_csv(dir_path + "/" + files[i]).values
         num_data = pima.shape[0]
-        if(num_data%q !=0):
+        file_set.append(pima[0][7])
+        if(num_data%q != 0):
             num_sets = int((num_data - (num_data % q)) / q) + 1
         else:
             num_sets = int(num_data / q)
@@ -103,4 +104,9 @@ def condition(q):
         for j in range(len(stock_list[i])):
             stock_list[i][j].append(close_list[i][j])
 
-    return stock_list
+    return stock_list,file_set
+
+def file_name():
+    file_set = condition(90)[1]
+    return file_set
+

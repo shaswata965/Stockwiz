@@ -1,11 +1,21 @@
 import pandas as pd
+import market_condition
 
-
-def train_data(val):
-    pima = pd.read_csv("data/TD.csv").values
+def train_data(val,name):
+    file_set = market_condition.file_name()
+    file_num = ''
+    print(len(file_set))
+    for h in range(len(file_set)):
+        if file_set[h] == name:
+            file_num = "File"+ str(h+1)+".csv"
+    file_set.clear()
+    pima = pd.read_csv("data/"+file_num).values
 
     num_data = pima.shape[0]
-    num_sets = int(((num_data - (num_data % 60)) / 60) + 1)
+    if(num_data%60)!= 0:
+        num_sets = int(((num_data - (num_data % 60)) / 60) + 1)
+    else:
+        num_sets = int((num_data / 60))
 
     set_list = []
     set_list2 = []
@@ -37,8 +47,8 @@ def train_data(val):
 
     for i in range(len(set_list)):
 
-        if i == 20:
-            v_count_end = 57
+        if i == num_sets-1:
+            v_count_end = len(set_list[num_sets-1])
 
         for j in range(v_count_start, v_count_end):
 

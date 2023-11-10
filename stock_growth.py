@@ -5,7 +5,7 @@ def growth():
     stock_set = []
     stock_list = []
     length = []
-    data = market_condition.condition(90)
+    data = market_condition.condition(90)[0]
     for i in data:
         if (len(i) % 365) != 0:
             num_sets = int((len(i) - (len(i) % 365)) / 365) + 1
