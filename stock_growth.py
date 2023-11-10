@@ -1,6 +1,5 @@
 import market_condition
-
-
+risk_label=[]
 def growth():
     arr = []
     stock_set = []
@@ -67,10 +66,17 @@ def growth():
         for j in i:
             for k in j:
                 temp_list.append(k)
-
         stock_list.append(temp_list)
 
-    return stock_list
+    for i in stock_list:
+        temp_data = []
+        for j in i:
+            if j[6] > j[8]:
+                temp_data.append(0)
+            if j[6] <= j[8]:
+                temp_data.append(1)
+        temp_data.append(i[0][5])
+        risk_label.append(temp_data)
 
+    return stock_list, risk_label
 
-growth()
