@@ -15,7 +15,10 @@ def condition(q):
     for i in range(len(files)):
         pima = pd.read_csv(dir_path + "/" + files[i]).values
         num_data = pima.shape[0]
-        file_set.append(pima[0][7])
+        file_data = []
+        file_data.append(pima[0][7])
+        file_data.append(files[i])
+        file_set.append(file_data)
         if(num_data%q != 0):
             num_sets = int((num_data - (num_data % q)) / q) + 1
         else:

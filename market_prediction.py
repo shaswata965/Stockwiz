@@ -1,13 +1,12 @@
 import pandas as pd
 import market_condition
 
-def train_data(val,name):
+def train_data(val,name, prediction):
     file_set = market_condition.file_name()
     file_num = ''
-    print(len(file_set))
     for h in range(len(file_set)):
-        if file_set[h] == name:
-            file_num = "File"+ str(h+1)+".csv"
+        if file_set[h][0] == name:
+            file_num = file_set[h][1]
     file_set.clear()
     pima = pd.read_csv("data/"+file_num).values
 
@@ -19,23 +18,29 @@ def train_data(val,name):
 
     set_list = []
     set_list2 = []
+    set_list3 = []
 
     count = 0
     for i in range(num_sets):
         n_array = []
         n_array2 = []
+        pred_array = []
         for j in range(60):
-            if count < num_data:
-                temp_array = [pima[count][1], pima[count][2], pima[count][3], pima[count][4], pima[count][6]]
-                temp_array2 = [pima[count][5]]
+            if (count+1) < num_data:
+                temp_array = [pima[count][1], pima[count][2], pima[count][3], pima[count][4], pima[count][5], pima[count][6]]
+                temp_array2 = [pima[count+1][prediction]]
                 count += 1
                 n_array.append(temp_array)
                 n_array2.append(temp_array2)
             else:
+                pred_array = [pima[count][1], pima[count][2], pima[count][3], pima[count][4], pima[count][5], pima[count][6]]
                 break
 
         set_list.append(n_array)
         set_list2.append(n_array2)
+        if pred_array:
+
+            set_list3.append(pred_array)
 
         n_array = []
         n_array2 = []
@@ -43,6 +48,7 @@ def train_data(val,name):
     v_count_start = 0
     v_count_end = 60
     s_count = 0
+    indicator = 0
     base_value = set_list[0][0][0]
 
     for i in range(len(set_list)):
@@ -55,9 +61,13 @@ def train_data(val,name):
             if set_list[i][j][0] <= base_value and s_count <= 120:
                 set_list[i][j].append(0)
                 s_count += 1
+                indicator = 0
             else:
                 set_list[i][j].append(1)
                 base_value = set_list[i][j][0]
                 s_count = 0
+                indicator = 1
 
-    return set_list[val], set_list2[val], num_sets
+    set_list3[0].append(indicator)
+
+    return set_list[val], set_list2[val], num_sets, set_list3
