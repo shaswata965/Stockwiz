@@ -1,25 +1,33 @@
-import pandas as pd
-import os
+
+from yahoo_fin.stock_info import *
 
 data_list = []
 close_list = []
 file_set = []
+
+
 def condition(q):
-    dir_path = "data"
-    files = os.listdir(dir_path)
+    from datetime import datetime, timedelta
+
+    files = ['RY.TO', 'TD.TO', 'SHOP.TO', 'CNQ.TO', 'CNR.TO', 'ENB.TO', 'TRI.TO', 'BMO.TO',
+             'BN.TO', 'ATD.TO', 'CSU.TO', 'NVEI.TO', 'DOO.TO', 'GSY.TO', 'ATZ.TO', 'BHC.TO',
+             'LSPD.TO', 'T.TO', 'WEED.TO', 'SOY.TO']
     arr = []
     data_set = []
     stock_set = []
     stock_list = []
     cond = []
     for i in range(len(files)):
-        pima = pd.read_csv(dir_path + "/" + files[i]).values
+        currDate = datetime.now()
+        endDate = currDate.date() - timedelta(days=1)
+        startDate = currDate.date() - timedelta(days=365 * 5)
+        pima = get_data(files[i], startDate, endDate).values
         num_data = pima.shape[0]
-        file_data = []
-        file_data.append(pima[0][7])
-        file_data.append(files[i])
-        file_set.append(file_data)
-        if(num_data%q != 0):
+        # file_data = []
+        # file_data.append(pima[0][6])
+        # file_data.append(files[i])
+        # file_set.append(file_data)
+        if (num_data % q != 0):
             num_sets = int((num_data - (num_data % q)) / q) + 1
         else:
             num_sets = int(num_data / q)
@@ -28,15 +36,16 @@ def condition(q):
         temp_data = []
         count = 0
         for z in range(num_data):
-            temp.append(pima[z][5])
+            temp.append(pima[z][4])
         close_list.append(temp)
         temp = []
         for j in range(num_sets):
             for k in range(q):
                 if count < num_data:
-                    temp.append(pima[count][5])
+                    temp.append(pima[count][4])
                     temp_data.append(
-                        [pima[count][1], pima[count][2], pima[count][3], pima[count][4], pima[count][6], pima[count][7]])
+                        [pima[count][0], pima[count][1], pima[count][2], pima[count][3], pima[count][4],
+                         pima[count][5], pima[count][6]])
                     count += 1
                 else:
                     break
@@ -87,13 +96,10 @@ def condition(q):
         else:
             cond.append(1)
 
-
     for i in range(len(stock_set)):
         for j in range(len(stock_set[i])):
             for k in range(len(stock_set[i][j])):
                 stock_set[i][j][k].append(cond[j])
-
-
 
     for i in stock_set:
         temp_list = []
@@ -107,9 +113,5 @@ def condition(q):
         for j in range(len(stock_list[i])):
             stock_list[i][j].append(close_list[i][j])
 
-    return stock_list,file_set
-
-def file_name():
-    file_set = condition(90)[1]
-    return file_set
+    return stock_list
 

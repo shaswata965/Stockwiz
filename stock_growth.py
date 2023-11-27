@@ -5,7 +5,8 @@ def growth():
     stock_set = []
     stock_list = []
     length = []
-    data = market_condition.condition(90)[0]
+    data = market_condition.condition(90)
+
     for i in data:
         if (len(i) % 365) != 0:
             num_sets = int((len(i) - (len(i) % 365)) / 365) + 1
@@ -21,7 +22,7 @@ def growth():
         for j in range(num_sets):
             for k in range(365):
                 if count < num_data:
-                    temp.append(i[count][7])
+                    temp.append(i[count][4])
                     temp_data.append(
                         [i[count][0], i[count][1], i[count][2], i[count][3], i[count][4], i[count][5], i[count][6],
                          i[count][7]])
@@ -37,14 +38,15 @@ def growth():
         data_set = []
 
     growth_set = []
+
     for i in arr:
         temp_set = []
-
         for j in range(len(i) - 1):
             temp_set.append(((i[j + 1] - i[j]) / i[j]) * 100)
         growth_set.append(temp_set)
 
     growth_index = []
+
 
     for i in growth_set:
         temp_set = [0]
@@ -71,12 +73,11 @@ def growth():
     for i in stock_list:
         temp_data = []
         for j in i:
-            if j[6] > j[8]:
+            if j[7] > j[8]:
                 temp_data.append(0)
-            if j[6] <= j[8]:
+            if j[7] <= j[8]:
                 temp_data.append(1)
-        temp_data.append(i[0][5])
+        temp_data.append(i[0][6])
         risk_label.append(temp_data)
 
     return stock_list, risk_label
-

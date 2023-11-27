@@ -58,8 +58,9 @@ def prediction(predict, stock_name):
     X_test = (np.array(X_test))
     Y_pred = lm.predict(X_test)
 
+
+
     val = Y_pred[0][0]
 
-    print(val*.05)
 
     return (val + (val * .05)), (val - (val * .05))

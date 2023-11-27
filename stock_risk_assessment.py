@@ -1,50 +1,53 @@
-import os
-
-import pandas as pd
 import tensorflow as tf
 import numpy as np
+from yahoo_fin.stock_info import *
 
 Sequential = tf.keras.models.Sequential
 Dense = tf.keras.layers.Dense
 
 import stock_growth
 
+
 def risk_assess():
+
+    from datetime import datetime, timedelta
+
     data_set, label = stock_growth.growth()
 
-    dir_path = "data"
-
-    files = os.listdir(dir_path)
+    files = ['RY.TO', 'TD.TO', 'SHOP.TO', 'CNQ.TO', 'CNR.TO', 'ENB.TO', 'TRI.TO', 'BMO.TO',
+             'BN.TO', 'ATD.TO', 'CSU.TO', 'NVEI.TO', 'DOO.TO', 'GSY.TO', 'ATZ.TO', 'BHC.TO',
+             'LSPD.TO', 'T.TO', 'WEED.TO', 'SOY.TO']
 
     predict_set = []
-    sort_set = []
+
 
     for i in files:
+        currDate = datetime.now()
+        endDate = currDate.date() - timedelta(days=1)
+        startDate = currDate.date() - timedelta(days=365 * 5)
 
-        pima = pd.read_csv("data/" + i).values
+        pima = get_data(i, startDate, endDate).values
 
         temp_array = []
-        temp_array.append(pima[0][7])
+        temp_array.append(pima[0][6])
 
-
-        def get_data(name):
+        def get_info(name):
             x = []
             y = []
-            for i in data_set:
-                for j in i:
-                    if j[5] == name:
+            for u in data_set:
+                for j in u:
+                    if j[6] == name:
                         j = [x for x in j if x != name]
                         x.append(j)
 
-            for i in label:
-                a = len(i) - 1
-                if i[a] == name:
-                    y = [x for x in i if x != name]
+            for u in label:
+                a = len(u) - 1
+                if u[a] == name:
+                    y = [x for x in u if x != name]
 
             return x, y
 
-
-        X, y = get_data(pima[0][7])
+        X, y = get_info(pima[0][6])
 
         tf.random.set_seed(42)
         np.random.seed(42)
@@ -83,7 +86,6 @@ def risk_assess():
         rating = 0
 
         temp_array.append(prediction[0][0])
-        sort_set.append(prediction[0][0])
 
         if 0.0 <= prediction[0] < 0.2:
             rating = 5
@@ -108,10 +110,7 @@ def risk_assess():
 
         predict_set.append(temp_array)
 
-    sort_set = sorted(sort_set, key=lambda x: x, reverse=True)
 
     final_set = sorted(predict_set, key=lambda x: x[1], reverse=True)
 
-    return(final_set)
-
-
+    return (final_set)
