@@ -63,4 +63,4 @@ def prediction(predict, stock_name):
     val = Y_pred[0][0]
 
 
-    return (val + (val * .05)), (val - (val * .05))
+    return (val)

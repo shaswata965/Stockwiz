@@ -19,13 +19,25 @@ while setter == 0:
                         "Press 1: For predicted Low Price"+"\n"+
                         "Press 2: For predicted Closing Price"+"\n"+
                         "Press 3: For predicted Adjusted Closing Price"+"\n"+
-                        "Press 4: To return to First Menu"))
+                        "Press 4: To return to First Menu"+"\n"))
         if opt == 0:
-            print("x")
+            val = input("Enter the stock sign: ")
+            print(linear_prediction.prediction(1, val))
+            setter = 1
+        elif opt == 1:
+            val = input("Enter the stock sign: ")
+            print(linear_prediction.prediction(2, val))
+            setter = 1
+        elif opt == 2:
+            val = input("Enter the stock sign: ")
+            print(linear_prediction.prediction(3, val))
+            setter = 1
+        elif opt == 3:
+            val = input("Enter the stock sign: ")
+            print(linear_prediction.prediction(4, val))
             setter = 1
         else:
-            print("y")
-            setter = 1
+            setter = 0
 
     else:
         budget = int(input('Enter Budget: '))

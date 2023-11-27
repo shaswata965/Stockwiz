@@ -6,12 +6,11 @@ def trade(trader_set):
     for i in trader_set:
         stock_bought = i[4]
         high = linear_prediction.prediction(1, i[0])
-        high_high = high[0]
-        high_low = high[1]
+        high_low = high - (high*0.05)
 
         low = linear_prediction.prediction(2, i[0])
-        low_high = low[0]
-        low_low = low[1]
+        low_high = low + (low*0.05)
+        low_low = low - (low*0.05)
 
         ticker = yf.Ticker(i[0])
 
@@ -22,10 +21,6 @@ def trade(trader_set):
 
         stock_number = int(i[3] / current_price)
         remaining = i[3] - (stock_number * current_price)
-        print(high_low)
-        print(current_price)
-        print(low_low)
-        print(low_high)
 
         if current_price <= low_low and current_price < high_low:
             print("Buy " + i[0])
