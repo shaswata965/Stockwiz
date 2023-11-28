@@ -22,25 +22,26 @@ while setter == 0:
                         "Press 4: To return to First Menu"+"\n"))
         if opt == 0:
             val = input("Enter the stock sign: ")
-            print(linear_prediction.prediction(1, val))
+            print("The predicted High point is: "+str(linear_prediction.prediction(1, val)))
             setter = 1
         elif opt == 1:
             val = input("Enter the stock sign: ")
-            print(linear_prediction.prediction(2, val))
+            print("The predicted Low point is: "+str(linear_prediction.prediction(2, val)))
             setter = 1
         elif opt == 2:
             val = input("Enter the stock sign: ")
-            print(linear_prediction.prediction(3, val))
+            print("The predicted Closing price is: "+str(linear_prediction.prediction(3, val)))
             setter = 1
         elif opt == 3:
             val = input("Enter the stock sign: ")
-            print(linear_prediction.prediction(4, val))
+            print("The predicted Adjusted Closing price is: "+str(linear_prediction.prediction(4, val)))
             setter = 1
         else:
             setter = 0
 
     else:
         budget = int(input('Enter Budget: '))
+        regularity = int(input('Enter the trading interval in minutes: '))
         stock_set = stock_risk_assessment.risk_assess()
         trader_set = []
 
@@ -70,7 +71,7 @@ while setter == 0:
             print("The time to trade is up, please try again tomorrow")
             sys.exit()
 
-        iterations = int(dif.total_seconds() // 600)
+        iterations = int(dif.total_seconds() // (regularity*60))
 
 
         def start_trading(trader_set, iterations):

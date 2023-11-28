@@ -1,3 +1,4 @@
+import sys
 
 from yahoo_fin.stock_info import *
 
@@ -15,8 +16,11 @@ def train_data(val, name, prediction):
     #     if file_set[h][0] == name:
     #         file_num = file_set[h][1]
     # file_set.clear()
-
-    pima = get_data(name, startDate, endDate).values
+    try:
+        pima = get_data(name, startDate, endDate).values
+    except AssertionError as e:
+        print(e.args[0]['chart']['error']['description'])
+        sys.exit()
 
     num_data = pima.shape[0]
     if (num_data % 60) != 0:
