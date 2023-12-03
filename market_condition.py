@@ -11,7 +11,7 @@ def condition(q):
 
     files = ['RY.TO', 'TD.TO', 'SHOP.TO', 'CNQ.TO', 'CNR.TO', 'ENB.TO', 'TRI.TO', 'BMO.TO',
              'BN.TO', 'ATD.TO', 'CSU.TO', 'NVEI.TO', 'DOO.TO', 'GSY.TO', 'ATZ.TO', 'BHC.TO',
-             'LSPD.TO', 'T.TO', 'WEED.TO', 'SOY.TO']
+             'LSPD.TO', 'T.TO', 'WEED.TO', 'SOY.TO','AAPL']
     arr = []
     data_set = []
     stock_set = []
@@ -80,6 +80,7 @@ def condition(q):
         for j in range(len(i)):
             sets[j].append(i[j])
 
+
     indi = []
     for i in sets:
         avg = sum(i) / len(i)
@@ -91,8 +92,9 @@ def condition(q):
         if indi[i] > base:
             cond.append(1)
             base = indi[i]
-        elif indi[i] < base:
+        elif indi[i] <= base:
             cond.append(0)
+            base = indi[i]
         else:
             cond.append(1)
 
@@ -108,10 +110,6 @@ def condition(q):
                 temp_list.append(k)
 
         stock_list.append(temp_list)
-
-    for i in range(len(stock_list)):
-        for j in range(len(stock_list[i])):
-            stock_list[i][j].append(close_list[i][j])
 
     return stock_list
 
